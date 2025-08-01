@@ -4,6 +4,7 @@ import younote  # Your updated younote.py
 import config
 from dotenv import load_dotenv
 import os
+import tempfile
 
 load_dotenv()
 st.title("YouTube Educational Notes Generator")
@@ -68,18 +69,23 @@ if st.session_state.notes_generated:
         st.markdown(st.session_state.markdown_content)
    
     # Only show download if PDF exists
-    if st.session_state.pdf_bytes and len(st.session_state.pdf_bytes) > 0:
-        import base64
-        b64 = base64.b64encode(st.session_state.pdf_bytes).decode()
-        
-        download_link = f"""
-        <a href="data:application/pdf;base64,{b64}" 
-           download="note.pdf" 
-           style="display: inline-block; padding: 0.25rem 0.75rem; background-color: #ff4b4b; color: white; text-decoration: none; border-radius: 0.25rem;">
-           ⬇️ Download PDF
-        </a>
-        """
-        st.markdown(download_link, unsafe_allow_html=True)
+    if st.session_state.pdf_bytes:
+    # Create a temporary file
+    with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_file:
+        tmp_file.write(st.session_state.pdf_bytes)
+        tmp_file_path = tmp_file.name
+    
+    # Read it back
+    with open(tmp_file_path, 'rb') as f:
+        st.download_button(
+            label="⬇️ Download PDF",
+            data=f.read(),
+            file_name=f"{st.session_state.video_title}.pdf",
+            mime="application/pdf"
+        )
+    
+    # Clean up
+    os.unlink(tmp_file_path)
     else:
         st.error("PDF generation failed - no download available")
         # Offer markdown download as fallback
