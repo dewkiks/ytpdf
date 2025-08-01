@@ -55,15 +55,32 @@ if st.button("Generate Notes"):
 # --- Display Results and Download Button ---
 if st.session_state.notes_generated:
     st.success("✅ Notes generated successfully!")
-
-    # Display the markdown notes in an expander
+    
+    # Debug the PDF bytes
+    if st.session_state.pdf_bytes:
+        st.write(f"PDF size: {len(st.session_state.pdf_bytes)} bytes")
+        st.write(f"PDF type: {type(st.session_state.pdf_bytes)}")
+    else:
+        st.error("PDF bytes are None!")
+        st.write("Markdown content exists:", bool(st.session_state.markdown_content))
+    
     with st.expander("View Markdown Notes"):
         st.markdown(st.session_state.markdown_content)
-    
-    # Create the download button using the PDF bytes from the session state
-    st.download_button(
-       label="⬇️ Download PDF",
-       data=st.session_state.pdf_bytes,
-       file_name=f"{st.session_state.video_title}.pdf",
-       mime="application/pdf"
-    )
+   
+    # Only show download if PDF exists
+    if st.session_state.pdf_bytes and len(st.session_state.pdf_bytes) > 0:
+        st.download_button(
+            label="⬇️ Download PDF",
+            data=st.session_state.pdf_bytes,
+            file_name=f"{st.session_state.video_title}.pdf",
+            mime="application/pdf"
+        )
+    else:
+        st.error("PDF generation failed - no download available")
+        # Offer markdown download as fallback
+        st.download_button(
+            label="⬇️ Download as Markdown",
+            data=st.session_state.markdown_content,
+            file_name=f"{st.session_state.video_title}.md",
+            mime="text/markdown"
+        )
