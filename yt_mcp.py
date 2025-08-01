@@ -8,7 +8,6 @@ from mcp import StdioServerParameters
 import asyncio
 import datetime
 import os
-async def run_agent(message: str) -> str:
 
 async def run_agent(message: str) -> str:
     # Try different node paths
