@@ -1,5 +1,4 @@
 import anyio
-from fastapi import logger
 import config
 from agno.tools.mcp import MultiMCPTools
 from agno.agent import Agent
@@ -13,8 +12,8 @@ async def run_agent(message: str) -> str:
     print(f"Starting run_agent with message: {message[:100]}...")
     try:
         mcp_tools_brevo = StdioServerParameters(
-            command="npx",
-            args=["-y", "youtube-video-summarizer-mcp"],
+            command="node",
+            args=["./youtube-video-summarizer-mcp/dist/index.js"],
         )
         
         async with MultiMCPTools(server_params_list=[mcp_tools_brevo], timeout_seconds=120.0) as mcp_tools_main:
