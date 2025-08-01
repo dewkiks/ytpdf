@@ -70,22 +70,15 @@ if st.session_state.notes_generated:
    
     # Only show download if PDF exists
     if st.session_state.pdf_bytes:
-    # Create a temporary file
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_file:
-            tmp_file.write(st.session_state.pdf_bytes)
-            tmp_file_path = tmp_file.name
+        import base64
+        b64 = base64.b64encode(st.session_state.pdf_bytes).decode()
         
-        # Read it back
-        with open(tmp_file_path, 'rb') as f:
-            st.download_button(
-                label="⬇️ Download PDF",
-                data=f.read(),
-                file_name=f"{st.session_state.video_title}.pdf",
-                mime="application/pdf"
-            )
+        # Display PDF in iframe
+        pdf_display = f'<iframe src="data:application/pdf;base64,{b64}" width="700" height="500" type="application/pdf"></iframe>'
+        st.markdown(pdf_display, unsafe_allow_html=True)
         
-        # Clean up
-        os.unlink(tmp_file_path)
+        # And provide the download link
+        st.markdown(f'<a href="data:application/pdf;base64,{b64}" target="_blank">Open PDF in new tab (then save)</a>', unsafe_allow_html=True)
     else:
         st.error("PDF generation failed - no download available")
         # Offer markdown download as fallback
