@@ -69,13 +69,13 @@ if st.session_state.notes_generated:
    
     # Only show download if PDF exists
     if st.session_state.pdf_bytes and len(st.session_state.pdf_bytes) > 0:
-    st.download_button(
-        label="⬇️ Download PDF",
-        data=st.session_state.pdf_bytes,
-        file_name=f"{st.session_state.video_title}.pdf",
-        mime="application/pdf",
-        key=f"download_{hash(st.session_state.video_title)}"  # Unique key
-    )
+        st.download_button(
+            label="⬇️ Download PDF",
+            data=st.session_state.pdf_bytes,
+            file_name=f"{st.session_state.video_title}.pdf",
+            mime="application/pdf",
+            key=f"download_{hash(st.session_state.video_title)}"  # Unique key
+        )
     else:
         st.error("PDF generation failed - no download available")
         # Offer markdown download as fallback
