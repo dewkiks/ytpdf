@@ -56,15 +56,7 @@ if st.button("Generate Notes"):
 # --- Display Results and Download Button ---
 if st.session_state.notes_generated:
     st.success("✅ Notes generated successfully!")
-    
-    # Debug the PDF bytes
-    if st.session_state.pdf_bytes:
-        st.write(f"PDF size: {len(st.session_state.pdf_bytes)} bytes")
-        st.write(f"PDF type: {type(st.session_state.pdf_bytes)}")
-    else:
-        st.error("PDF bytes are None!")
-        st.write("Markdown content exists:", bool(st.session_state.markdown_content))
-    
+
     with st.expander("View Markdown Notes"):
         st.markdown(st.session_state.markdown_content)
    
