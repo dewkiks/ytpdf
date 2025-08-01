@@ -71,21 +71,21 @@ if st.session_state.notes_generated:
     # Only show download if PDF exists
     if st.session_state.pdf_bytes:
     # Create a temporary file
-    with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_file:
-        tmp_file.write(st.session_state.pdf_bytes)
-        tmp_file_path = tmp_file.name
-    
-    # Read it back
-    with open(tmp_file_path, 'rb') as f:
-        st.download_button(
-            label="⬇️ Download PDF",
-            data=f.read(),
-            file_name=f"{st.session_state.video_title}.pdf",
-            mime="application/pdf"
-        )
-    
-    # Clean up
-    os.unlink(tmp_file_path)
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_file:
+            tmp_file.write(st.session_state.pdf_bytes)
+            tmp_file_path = tmp_file.name
+        
+        # Read it back
+        with open(tmp_file_path, 'rb') as f:
+            st.download_button(
+                label="⬇️ Download PDF",
+                data=f.read(),
+                file_name=f"{st.session_state.video_title}.pdf",
+                mime="application/pdf"
+            )
+        
+        # Clean up
+        os.unlink(tmp_file_path)
     else:
         st.error("PDF generation failed - no download available")
         # Offer markdown download as fallback
