@@ -32,10 +32,7 @@ async def run_agent(message: str) -> str:
             command=node_path,
             args=["./youtube-video-summarizer-mcp/dist/index.js"],
         )
-        mcp_tools_brevo = StdioServerParameters(
-            command=node_path,
-            args=["./youtube-video-summarizer-mcp/dist/index.js"],
-        )
+            
         async with MultiMCPTools(server_params_list=[mcp_tools_brevo], timeout_seconds=120.0) as mcp_tools_main:
             print("MCP Tools initialized successfully")
             agent = Agent(
