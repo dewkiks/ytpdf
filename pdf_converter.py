@@ -3,7 +3,7 @@ import re
 from datetime import datetime
 from xml.sax.saxutils import escape
 
-from reportlab.lib.colors import HexColor, blue, darkgreen, red
+from reportlab.lib.colors import HexColor, black, red
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
@@ -18,7 +18,7 @@ def format_text(text: str) -> str:
     text = re.sub(r"\*(.*?)\*", r"<i>\1</i>", text)
     # Process inline code (`code`)
     text = re.sub(
-        r"`([^`]+)`", r'<font name="Courier" color="#C7254E">\1</font>', text
+        r"`([^`]+)`", r'<font name="Courier" color="#666666">\1</font>', text
     )
     return text
 
@@ -53,7 +53,7 @@ def convert_notes_to_pdf(
             fontSize=16,
             spaceAfter=12,
             spaceBefore=18,
-            textColor=darkgreen,
+            textColor=black,
         )
     )
     styles.add(
@@ -63,7 +63,7 @@ def convert_notes_to_pdf(
             fontSize=14,
             spaceAfter=10,
             spaceBefore=14,
-            textColor=blue,
+            textColor=black,
         )
     )
     styles.add(
@@ -73,7 +73,7 @@ def convert_notes_to_pdf(
             fontSize=12,
             spaceAfter=8,
             spaceBefore=12,
-            textColor=darkgreen,
+            textColor=black,
         )
     )
     styles.add(
@@ -83,6 +83,7 @@ def convert_notes_to_pdf(
             leftIndent=20,
             bulletIndent=10,
             spaceAfter=4,
+            textColor=black,
         )
     )
     styles.add(
@@ -107,10 +108,10 @@ def convert_notes_to_pdf(
             rightIndent=20,
             spaceBefore=6,
             spaceAfter=6,
-            textColor=HexColor("#333333"),
-            backColor=HexColor("#F5F5F5"),
+            textColor=black,
+            backColor=HexColor("#F8F8F8"),
             borderPadding=(5, 5, 5, 5),
-            borderColor=HexColor("#CCCCCC"),
+            borderColor=black,
             borderWidth=0.5,
         )
     )
@@ -130,7 +131,7 @@ def convert_notes_to_pdf(
     if video_url:
         story.append(
             Paragraph(
-                f"Source: <a href='{video_url}' color='blue'>{video_url}</a>",
+                f"Source: <a href='{video_url}' color='black'>{video_url}</a>",
                 styles["Normal"],
             )
         )
