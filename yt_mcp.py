@@ -31,8 +31,8 @@ async def run_agent(message: str) -> str:
         print(f"Using node path: {node_path}")
        
         mcp_tools_brevo = StdioServerParameters(
-            command=node_path,
-            args=["./youtube-video-summarizer-mcp/dist/index.js"],
+            command="npx",
+            args=["-y", "youtube-video-summarizer-mcp"],
         )
            
         async with MultiMCPTools(server_params_list=[mcp_tools_brevo], timeout_seconds=120.0) as mcp_tools_main:
