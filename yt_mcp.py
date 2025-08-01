@@ -7,14 +7,21 @@ from agno.models.google import Gemini
 from mcp import StdioServerParameters
 import asyncio
 import datetime
-
-async def run_agent(message: str) -> str:
-    print(f"Starting run_agent with message: {message[:100]}...")
-    try:
-        mcp_tools_brevo = StdioServerParameters(
-            command="node",
-            args=["./youtube-video-summarizer-mcp/dist/index.js"],
-        )
+node_path = shutil.which("node") or "/usr/bin/node" or "/usr/local/bin/node"
+    print(f"Node path: {node_path}")
+    
+    if not node_path:
+        # Try to find it manually
+        try:
+            result = subprocess.run(["which", "node"], capture_output=True, text=True)
+            node_path = result.stdout.strip()
+        except:
+            raise RuntimeError("Node.js not found on system")
+    
+    mcp_tools_brevo = StdioServerParameters(
+        command=node_path,
+        args=["./youtube-video-summarizer-mcp/dist/index.js"],
+    )
         
         async with MultiMCPTools(server_params_list=[mcp_tools_brevo], timeout_seconds=120.0) as mcp_tools_main:
             print("MCP Tools initialized successfully")
