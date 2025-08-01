@@ -17,3 +17,4 @@ reportlab
 requests
 rich
 typer
+nodejs-bin[cmd]
