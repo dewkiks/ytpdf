@@ -69,13 +69,17 @@ if st.session_state.notes_generated:
    
     # Only show download if PDF exists
     if st.session_state.pdf_bytes and len(st.session_state.pdf_bytes) > 0:
-        st.download_button(
-            label="⬇️ Download PDF",
-            data=st.session_state.pdf_bytes,
-            file_name=f"{st.session_state.video_title}.pdf",
-            mime="application/pdf",
-            key=f"download_{hash(st.session_state.video_title)}"  # Unique key
-        )
+        import base64
+        b64 = base64.b64encode(st.session_state.pdf_bytes).decode()
+        
+        download_link = f"""
+        <a href="data:application/pdf;base64,{b64}" 
+           download="{st.session_state.video_title}.pdf" 
+           style="display: inline-block; padding: 0.25rem 0.75rem; background-color: #ff4b4b; color: white; text-decoration: none; border-radius: 0.25rem;">
+           ⬇️ Download PDF
+        </a>
+        """
+        st.markdown(download_link, unsafe_allow_html=True)
     else:
         st.error("PDF generation failed - no download available")
         # Offer markdown download as fallback
