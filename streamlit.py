@@ -74,7 +74,7 @@ if st.session_state.notes_generated:
         
         download_link = f"""
         <a href="data:application/pdf;base64,{b64}" 
-           download="{st.session_state.video_title}.pdf" 
+           download="note.pdf" 
            style="display: inline-block; padding: 0.25rem 0.75rem; background-color: #ff4b4b; color: white; text-decoration: none; border-radius: 0.25rem;">
            ⬇️ Download PDF
         </a>
