@@ -16,6 +16,7 @@ if 'notes_generated' not in st.session_state:
     st.session_state.pdf_bytes = None
     st.session_state.video_title = "YouTube_Notes"
 
+st.info("Add gemini api key only if the site if failing to generate pdf else leave it blank")
 api_key_input = st.text_input("Gemini API Key:", type="password")
 api_key_to_use = api_key_input if api_key_input else os.getenv("GEMINI_API_KEY")
 if api_key_to_use:
